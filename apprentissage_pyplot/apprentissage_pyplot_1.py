@@ -45,7 +45,7 @@ ax[3].set_title("experience 4")
 plt.show()
     
     
-# fonction flexive
+# fonction flexible
 def graphique(data):
     n = len(data)
     plt.figure(figsize=(15,12))

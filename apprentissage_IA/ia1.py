@@ -79,8 +79,10 @@ if __name__ == "__main__":
     plt.show()
     predict(new_plant,w,b) 
     
+    
+    
     # affichage 3D
-    fig = go.Figure(data=[go.Scatter3d( 
+    """fig = go.Figure(data=[go.Scatter3d( 
         x=X[:, 0].flatten(),
         y=X[:, 1].flatten(),
         z=y.flatten(),
@@ -110,10 +112,10 @@ if __name__ == "__main__":
 
     fig.update_layout(template= "plotly_dark", margin=dict(l=0, r=0, b=0, t=0))
     fig.layout.scene.camera.projection.type = "orthographic"
-    fig.show()
+    fig.show()"""
     
-    
-    def animate(params):
+    #animation des graphs
+    """def animate(params):
         w = params[0]
         b = params[1]
         loss = params[2]
@@ -171,4 +173,4 @@ if __name__ == "__main__":
     
     Writer = animation.writers["pillow"]
     writer = Writer(fps=15, metadata=dict(artist="Me"))
-    ani.save("animation.gif", writer= writer)
+    ani.save("animation.gif", writer= writer)"""
