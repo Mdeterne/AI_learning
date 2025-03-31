@@ -1,6 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
-x_input = np.array(([3,1.5],[2,1],[4,1.5],[3,1],[3.5,0.5],[2,0.5],[5.5,1],[1,1],[2,1]),dtype= float)
+x_input = np.array(([3,1.5],[2,1],[4,1.5],[3,1],[3.5,0.5],[2,0.5],[5.5,1],[1,1]),dtype= float)
 y = np.array(([1],[0],[1],[0],[1],[0],[1],[0]), dtype = float) # 1-rouge 2-bleu
 
 x_input = x_input/np.amax(x_input, axis=0)
@@ -41,11 +42,13 @@ class Neural_Network():
 
         self.w1 += X.T.dot(self.z2_delta)
         self.w2 += self.z2.T.dot(self.o_delta)
+        return self.w1, self.w2
 
     def train(self,X,y):
 
         o = self.forward(X)
-        self.backward(X,y,o)
+        w1,w2 = self.backward(X,y,o)
+        return w1,w2
 
     def predict(self):
         print("Donnée prédite apres entrainement: ")
@@ -59,12 +62,27 @@ class Neural_Network():
 
 NN = Neural_Network()
 
-for i in range(300000):
+for i in range(30000):
     #print("#" + str(i) + "\n")
     #print("Valeurs d'entrées: \n" + str(X))
     #print("Sortie actuelle: \n" + str(y))
     #print("Sortie prédite: \n" + str(np.matrix.round(NN.forward(X),2)))
     #print("\n")
-    NN.train(X,y)
+    w1,w2 = NN.train(X,y)
+p = [[0.5,0.5],[1,0.75],[1.5,1],[2,1.25],[2.5,1.5],[3,1.75],[3.5,2],[4,2.25]]
+p = p/np.amax(p, axis=0)
+p_pred = []
+
+for i in range(8):
+    p_pred.append(NN.forward(p[i]))
+
+plt.figure(figsize=(12,8))
+plt.scatter(x_input[:,0],x_input[:,1], c=y)
+plt.plot(p_pred,p, c = "red")
+plt.show()
+print("affichage p\n")
+print(p)
+print("affichage p_pred\n")
+print(p_pred)
 
 NN.predict()
