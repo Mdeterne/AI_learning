@@ -79,10 +79,13 @@ if __name__ == "__main__":
     plt.show()
     predict(new_plant,w,b) 
     
+    fig,axis = plt.subplots()
+    
+    animated_curv, = plt.plot([],[])
     
     
     # affichage 3D
-    """fig = go.Figure(data=[go.Scatter3d( 
+    fig = go.Figure(data=[go.Scatter3d( 
         x=X[:, 0].flatten(),
         y=X[:, 1].flatten(),
         z=y.flatten(),
@@ -112,10 +115,10 @@ if __name__ == "__main__":
 
     fig.update_layout(template= "plotly_dark", margin=dict(l=0, r=0, b=0, t=0))
     fig.layout.scene.camera.projection.type = "orthographic"
-    fig.show()"""
+    fig.show()
     
     #animation des graphs
-    """def animate(params):
+    def animate(params):
         w = params[0]
         b = params[1]
         loss = params[2]
@@ -138,13 +141,13 @@ if __name__ == "__main__":
         
         ax[0].set_xlim(X[:,0].min(), X[:,0].max())
         ax[0].set_xlim(X[:,1].min(), X[:,1].max())
-        ax[0].set_tittle("Frontière de décision")
+        ax[0].set_title("frontiere de decision")
         ax[0].set_xlabel("x1")
         ax[0].set_ylabel("x2")
         
         # sigmoide
         z = X.dot(w) + b
-        z_new = np.linsp(z.min(), z.max(), 100)
+        z_new = np.linspace(z.min(), z.max(), 100)
         A = 1/(1 + np.exp(-z_new))
         ax[1].plot(z_new, A, c="orange", lw=4)
         ax[1].scatter(z[y==0], np.zeros(z[y==0].shape), c="#008066", edgecolors='k', linewidths=3, s=s)
@@ -152,8 +155,8 @@ if __name__ == "__main__":
         #ax[1].vlines(x=0, ymin=0, ymax=1, colors="red") # frontière de décision
         ax[1].set_xlim(z.min(), z.max())
         ax[1].set_title("sigmoid")
-        ax[1].set_xlable('Z')
-        ax[1].set_ylable("A(Z)")
+        ax[1].set_xlabel('Z')
+        ax[1].set_ylabel("A(Z)")
         
         for j in range(len(A[y.flatten()==0])):
             ax[1].vlines(z[y==0][j], ymin=0, ymax = 1/ (1 + np.exp(-z[y==0][j])), color="red", alpha=0.5, zorder=-1)
@@ -161,16 +164,14 @@ if __name__ == "__main__":
         for j in range(len(A[y.flatten()==1])):
             ax[1].vlines(z[y==1][j], ymax=1, ymin = 1/ (1 + np.exp(-z[y==1][j])), color="red", alpha=0.5, zorder=-1)
             
-        ax[2].plot(range(i), loss[:,i], color="red", lw=4)
+        ax[2].plot(range(i), loss[:i], color="red", lw=4)
         ax[2].set_xlim(loss[-1] * 0.8, len(loss))
         ax[2].set_ylim(0,loss[0] * 1.1)
         ax[2].set_title("Fonction Cout")
         ax[2].set_xlabel("itteration")
-        ax[2].se_ylabel("loss")
+        ax[2].set_ylabel("loss")
         
+    
     fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(40, 10))
     ani = animation.FuncAnimation(fig, animate, frames=history, interval=200, repeat=False)
-    
-    Writer = animation.writers["pillow"]
-    writer = Writer(fps=15, metadata=dict(artist="Me"))
-    ani.save("animation.gif", writer= writer)"""
+    ani.save("animation_enfin_réalisé.gif")
