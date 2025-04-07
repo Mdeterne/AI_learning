@@ -79,13 +79,35 @@ if __name__ == "__main__":
     plt.show()
     predict(new_plant,w,b) 
     
-    fig,axis = plt.subplots()
+    fig, axis = plt.subplots()
     
-    animated_curv, = plt.plot([],[])
+    # Fix: Remove plt prefix from axis methods
+    axis.scatter(X[:, 0], X[:, 1], c=y, cmap='summer')
+    animated_curv, = axis.plot([], [],color = "orange", linewidth= 2)
     
+    axis.set_xlim([-2, 5])
+    axis.set_ylim([-4, 7])
+
+    def animate(frame):
+        # Fix: Properly access history elements
+        w = history[frame][0]
+        b = history[frame][1]
+        x0_val = np.linspace(-3, 7, 100)  # Create x values for the line
+        x1_val = (-w[0] * x0_val - b) / w[1]  # Calculate corresponding y values
+
+        animated_curv.set_data(x0_val, x1_val)
+        return animated_curv
+
+    anim = animation.FuncAnimation(fig=fig, func=animate, frames=len(history), interval=15, repeat = False)
+    plt.show()
+    anim.save("segneur jésus j'ai enfin réussi.gif")
+
+
+
+
     
     # affichage 3D
-    fig = go.Figure(data=[go.Scatter3d( 
+    """fig = go.Figure(data=[go.Scatter3d( 
         x=X[:, 0].flatten(),
         y=X[:, 1].flatten(),
         z=y.flatten(),
@@ -174,4 +196,4 @@ if __name__ == "__main__":
     
     fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(40, 10))
     ani = animation.FuncAnimation(fig, animate, frames=history, interval=200, repeat=False)
-    ani.save("animation_enfin_réalisé.gif")
+    ani.save("animation_enfin_réalisé.gif")"""
